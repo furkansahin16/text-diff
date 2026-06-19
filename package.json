@@ -1,0 +1,8 @@
+{
+  "name": "text-diff",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test:js": "node --test"
+  }
+}

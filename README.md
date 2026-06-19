@@ -30,6 +30,13 @@ go run ./cmd/server -addr :3000 -web web
 go build -o bin/text-diff ./cmd/server
 ```
 
+## Test
+
+```bash
+go test ./...
+npm run test:js
+```
+
 ## Health Check
 
 ```bash
