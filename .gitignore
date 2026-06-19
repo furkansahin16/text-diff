@@ -1,0 +1,23 @@
+# Local/editor files
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Environment files
+.env
+.env.*
+
+# Build outputs
+bin/
+dist/
+build/
+tmp/
+*.out
+*.test
+
+# Go workspace/cache artifacts
+go.work
+
+# Local planning notes
+docs/
