@@ -42,3 +42,25 @@ npm run test:js
 ```bash
 curl http://localhost:8080/healthz
 ```
+
+## Docker
+
+Build locally:
+
+```bash
+docker build -t text-diff:local .
+```
+
+Run locally:
+
+```bash
+docker run --rm -p 8080:8080 -e VERSION=local text-diff:local
+```
+
+Production with Compose:
+
+```bash
+TEXT_DIFF_VERSION=v0.1.0 docker compose up -d
+```
+
+The Compose file expects images published as `ghcr.io/furkansahin16/text-diff:<tag>`.

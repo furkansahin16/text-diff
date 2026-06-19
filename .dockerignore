@@ -1,0 +1,14 @@
+.git/
+.github/
+bin/
+build/
+dist/
+docs/
+tmp/
+.DS_Store
+.env
+.env.*
+*.out
+*.test
+Dockerfile
+compose.yaml

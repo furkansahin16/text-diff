@@ -13,6 +13,7 @@ func main() {
 	addr := flag.String("addr", ":8080", "HTTP listen address")
 	webDir := flag.String("web", "web", "static web directory")
 	flag.Parse()
+	version := envOrDefault("VERSION", "dev")
 
 	absWebDir, err := filepath.Abs(*webDir)
 	if err != nil {
@@ -26,7 +27,8 @@ func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/plain; charset=utf-8")
-		_, _ = w.Write([]byte("ok\n"))
+		w.Header().Set("X-App-Version", version)
+		_, _ = w.Write([]byte("ok " + version + "\n"))
 	})
 	mux.Handle("GET /", cacheHeaders(http.FileServer(http.Dir(absWebDir))))
 
@@ -36,11 +38,20 @@ func main() {
 		ReadHeaderTimeout: 5 * time.Second,
 	}
 
-	log.Printf("text-diff listening on %s", *addr)
+	log.Printf("text-diff %s listening on %s", version, *addr)
 	log.Printf("serving static files from %s", absWebDir)
 	if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 		log.Fatalf("server failed: %v", err)
 	}
+}
+
+func envOrDefault(key, fallback string) string {
+	value := os.Getenv(key)
+	if value == "" {
+		return fallback
+	}
+
+	return value
 }
 
 func cacheHeaders(next http.Handler) http.Handler {
