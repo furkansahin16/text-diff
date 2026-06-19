@@ -15,6 +15,9 @@
   --removed-text: #b42318;
   --line-bg: rgba(0, 0, 0, 0.035);
   --focus: rgba(0, 113, 227, 0.28);
+  --icon-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(219, 234, 255, 0.68));
+  --icon-border: rgba(0, 113, 227, 0.14);
+  --icon-shadow: 0 16px 42px rgba(0, 113, 227, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
 [data-theme="dark"] {
@@ -34,6 +37,9 @@
   --removed-text: #ff9a94;
   --line-bg: rgba(255, 255, 255, 0.055);
   --focus: rgba(41, 151, 255, 0.28);
+  --icon-bg: linear-gradient(145deg, rgba(48, 48, 54, 0.92), rgba(18, 26, 39, 0.88));
+  --icon-border: rgba(255, 255, 255, 0.12);
+  --icon-shadow: 0 16px 42px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 * {
@@ -80,12 +86,21 @@ textarea {
   gap: 8px;
 }
 
+.app-icon {
+  display: grid;
+  width: 62px;
+  height: 62px;
+  place-items: center;
+  border: 1px solid var(--icon-border);
+  border-radius: 20px;
+  background: var(--icon-bg);
+  box-shadow: var(--icon-shadow);
+}
+
 .logo {
   display: block;
-  width: 52px;
-  height: 52px;
-  border-radius: 14px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  width: 44px;
+  height: 44px;
 }
 
 .eyebrow {
