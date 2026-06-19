@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A minimal, private, client-side text diff tool.">
+    <title>Text Diff</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">Private client-side comparison</p>
+          <h1>Text Diff</h1>
+          <p class="lede">Compare two texts in your browser. Nothing is uploaded to the server.</p>
+        </div>
+        <button class="theme-toggle" type="button" id="themeToggle" aria-label="Toggle color theme">Dark</button>
+      </header>
+
+      <section class="workspace" aria-label="Text inputs">
+        <article class="panel">
+          <div class="panel-header">
+            <label for="leftText">Original</label>
+            <span id="leftCount">0 lines</span>
+          </div>
+          <textarea id="leftText" spellcheck="false" placeholder="Paste original text here"></textarea>
+        </article>
+
+        <article class="panel">
+          <div class="panel-header">
+            <label for="rightText">Changed</label>
+            <span id="rightCount">0 lines</span>
+          </div>
+          <textarea id="rightText" spellcheck="false" placeholder="Paste changed text here"></textarea>
+        </article>
+      </section>
+
+      <section class="actions" aria-label="Actions">
+        <div>
+          <button class="primary" type="button" id="compareButton">Compare</button>
+          <button class="secondary" type="button" id="clearButton">Clear</button>
+        </div>
+        <p class="status" id="status">Supports up to 20,000 lines per side.</p>
+      </section>
+
+      <section class="result-card" aria-label="Diff result">
+        <div class="result-header">
+          <h2>Result</h2>
+          <span id="summary">No comparison yet</span>
+        </div>
+        <div class="diff" id="diffResult" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <script src="/app.js" defer></script>
+  </body>
+</html>

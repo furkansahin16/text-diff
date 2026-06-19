@@ -1,0 +1,37 @@
+# Text Diff
+
+A minimal, private, client-side text diff web app served by a lightweight Go server.
+
+## Features
+
+- Side-by-side text comparison.
+- Client-side diffing; text is not uploaded to the server.
+- Up to 20,000 lines per side.
+- Light and dark themes.
+- Responsive, Apple-inspired interface.
+
+## Run Locally
+
+```bash
+go run ./cmd/server
+```
+
+Open `http://localhost:8080`.
+
+Optional flags:
+
+```bash
+go run ./cmd/server -addr :3000 -web web
+```
+
+## Build
+
+```bash
+go build -o bin/text-diff ./cmd/server
+```
+
+## Health Check
+
+```bash
+curl http://localhost:8080/healthz
+```
