@@ -78,11 +78,11 @@ jobs:
           key: ${{ secrets.DEPLOY_SSH_KEY }}
           script: |
             set -e
-            cd /opt/homelab/apps
+            cd /opt/homelab/apps || { echo "Failed to access deployment directory"; exit 1; }
             tmp_env="$(mktemp)"
             trap 'rm -f "$tmp_env"' EXIT
             if [ -f .env ]; then
-              awk -F= '!/^[[:space:]]*TEXT_DIFF_VERSION=/' .env > "$tmp_env"
+              awk -F= '/^[[:space:]]*TEXT_DIFF_VERSION=/{next} {print}' .env > "$tmp_env"
             fi
             printf 'TEXT_DIFF_VERSION=%s\n' "${{ github.ref_name }}" >> "$tmp_env"
             mv -f "$tmp_env" .env
