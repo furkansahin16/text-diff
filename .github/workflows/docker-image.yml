@@ -82,7 +82,7 @@ jobs:
             tmp_env="$(mktemp)"
             trap 'rm -f "$tmp_env"' EXIT
             if [ -f .env ]; then
-              awk '/^[[:space:]]*#/ {next} /^[[:space:]]*TEXT_DIFF_VERSION=/{next} {print}' .env > "$tmp_env"
+              awk '/^[[:space:]]*TEXT_DIFF_VERSION=/{next} {print}' .env > "$tmp_env"
             fi
             printf 'TEXT_DIFF_VERSION=%s\n' "${{ github.ref_name }}" >> "$tmp_env"
             [ -s "$tmp_env" ] || { echo "Failed to update .env"; exit 1; }
