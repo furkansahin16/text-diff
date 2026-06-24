@@ -82,10 +82,9 @@ jobs:
             tmp_env="$(mktemp)"
             trap 'rm -f "$tmp_env"' EXIT
             if [ -f .env ]; then
-              awk -F= '!/^TEXT_DIFF_VERSION=/' .env > "$tmp_env"
+              awk -F= '!/^[[:space:]]*TEXT_DIFF_VERSION=/' .env > "$tmp_env"
             fi
             printf 'TEXT_DIFF_VERSION=%s\n' "${{ github.ref_name }}" >> "$tmp_env"
-            [ -s "$tmp_env" ]
             mv -f "$tmp_env" .env
             docker compose pull text-diff
             docker compose up -d text-diff
