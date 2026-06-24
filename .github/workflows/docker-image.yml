@@ -69,3 +69,24 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Deploy to server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          script: |
+            set -e
+            cd /opt/homelab/apps || { echo "Failed to access deployment directory"; exit 1; }
+            tmp_env="$(mktemp)"
+            touch "$tmp_env"
+            trap 'rm -f "$tmp_env"' EXIT
+            if [ -f .env ]; then
+              awk '/^[[:space:]]*TEXT_DIFF_VERSION=/{next} {print}' .env > "$tmp_env" || { echo "Failed to prepare .env content"; exit 1; }
+            fi
+            printf 'TEXT_DIFF_VERSION=%s\n' "${{ github.ref_name }}" >> "$tmp_env"
+            [ -s "$tmp_env" ] || { echo "Temporary .env file is empty or invalid"; exit 1; }
+            mv -f "$tmp_env" .env
+            docker compose pull text-diff || { echo "Failed to pull text-diff image"; exit 1; }
+            docker compose up -d text-diff || { echo "Failed to start text-diff service"; exit 1; }
