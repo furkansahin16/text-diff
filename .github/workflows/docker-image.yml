@@ -77,7 +77,13 @@ jobs:
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.DEPLOY_SSH_KEY }}
           script: |
+            set -e
             cd /opt/homelab/apps
-            echo "TEXT_DIFF_VERSION=${{ github.ref_name }}" > .env
+            tmp_env="$(mktemp)"
+            if [ -f .env ]; then
+              grep -v '^TEXT_DIFF_VERSION=' .env > "$tmp_env"
+            fi
+            echo "TEXT_DIFF_VERSION=${{ github.ref_name }}" >> "$tmp_env"
+            mv "$tmp_env" .env
             docker compose pull text-diff
             docker compose up -d text-diff
