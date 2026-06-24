@@ -80,10 +80,12 @@ jobs:
             set -e
             cd /opt/homelab/apps
             tmp_env="$(mktemp)"
+            trap 'rm -f "$tmp_env"' EXIT
             if [ -f .env ]; then
-              grep -v '^TEXT_DIFF_VERSION=' .env > "$tmp_env"
+              grep -v '^TEXT_DIFF_VERSION=' .env > "$tmp_env" || true
             fi
             echo "TEXT_DIFF_VERSION=${{ github.ref_name }}" >> "$tmp_env"
-            mv "$tmp_env" .env
+            mv -f "$tmp_env" .env
+            trap - EXIT
             docker compose pull text-diff
             docker compose up -d text-diff
